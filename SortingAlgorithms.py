@@ -40,24 +40,44 @@ def MergeSort(aList):
             k += 1
 
 
-def CountSort(lst, k):
-    #Initialise temp and sorted list
-    temp = [0 for i in range(k+1)]
-    Sorted = [0]*len(lst)
-    for i in lst:
-        if i == 0:
-            temp[0] += 1
-        else:
-            temp[i] += 1
-    #THIS STEP IS KEY!!!!!
-    #Get running total for temp
-    for i in range(1,len(temp)):
-        temp[i] += temp[i-1]
-    #place each element from lst into correct position in Sorted
-    for i in lst:
-        Sorted[temp[i]-1] = i
-        temp[i] -= 1  #handles duplicate values
+def CountSort(lst, asc=True):
+    #Find maximum value from list
+    maxVal = max(lst)
+    #temp will contain lists of numbers whose values all equal its index
+    temp = [[] for i in range(maxVal+1)]
+    Sorted = []
+    #Populate temp
+    for val in lst:
+        temp[val].append(val)
+    #Now temp will contain values sorted in ascending order
+    if asc:
+        for sublist in temp:
+            Sorted += sublist
+    else:
+        for i in range(maxVal,-1,-1):
+            Sorted += temp[i]
     return Sorted
-        
-        
-        
+
+
+def RadixSort(lst, base=10):
+    def SortByDigit(lst, base, it):
+        temp = [[] for i in range(base)]
+        Sorted = []
+        #Sort lst in ascending order based on the ith positional digit
+        #Use counting sort for this
+        for num in lst:
+            #Get the ith positional digit from the number
+            digit = (num // (base**it)) % base
+            temp[digit].append(num)
+        for sublist in temp:
+            Sorted += sublist
+        return Sorted
+    
+    maxVal = max(lst)
+    it = 0
+    #Sort lst by each positional digit in turn
+    while base**it <= maxVal:
+        lst = SortByDigit(lst, base, it)
+        it += 1
+    return lst
+
