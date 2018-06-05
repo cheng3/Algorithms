@@ -1,3 +1,8 @@
+##########################################
+#
+# MERGE SORT
+#
+##########################################
 def MergeSort(aList):
     '''
     Merge sort algorithm
@@ -7,7 +12,7 @@ def MergeSort(aList):
     '''
     #if aList only has single element then it's sorted by definition
     if len(aList) > 1:
-        mid = aList // 2
+        mid = len(aList) // 2
         leftHalf = aList[:mid]
         rightHalf = aList[mid:]
         
@@ -39,7 +44,11 @@ def MergeSort(aList):
             j += 1
             k += 1
 
-
+##########################################
+#
+# COUNTING SORT
+#
+##########################################
 def CountSort(lst, asc=True):
     #Find maximum value from list
     maxVal = max(lst)
@@ -58,7 +67,11 @@ def CountSort(lst, asc=True):
             Sorted += temp[i]
     return Sorted
 
-
+##########################################
+#
+# RADIX SORT
+#
+##########################################
 def RadixSort(lst, base=10):
     def SortByDigit(lst, base, it):
         temp = [[] for i in range(base)]
@@ -81,3 +94,25 @@ def RadixSort(lst, base=10):
         it += 1
     return lst
 
+    
+##########################################
+#
+# HEAP SORT
+#
+##########################################
+def MaxHeapify(lst, i):
+    size = len(lst) - 1
+    leftChild, rightChild = 2*i+1, 2*i+2
+    j = i
+    #if we reach a leaf
+    if leftChild > size or rightChild > size:
+        return lst
+    if lst[i] < lst[leftChild]:
+        j = leftChild
+    elif lst[i] < lst[rightChild]:
+        j = rightChild
+    else:
+        return lst
+    #swap parent and child values
+    lst[i], lst[j] = lst[j], lst[i]
+    return MaxHeapify(lst, j)
